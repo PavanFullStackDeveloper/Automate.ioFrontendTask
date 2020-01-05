@@ -1,0 +1,93 @@
+<!-- Notes wrapper start -->
+<div class="notes-wrap notes-wrap-sidebar-open">
+    <!-- Notes wrapper header start -->
+    <header class="notes-wrap-header notes-wrap-header-fixed">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6 col-md align-self-center">
+                    <!-- Icons nav start -->
+                    <ul class="nav icons-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript:void(0)" (click)="toggleNotesSidebar()"><i
+                                    class="icon ion-md-menu"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript:void(0)" (click)="deleteNote()"><i
+                                    class="icon ion-md-trash"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript:void(0)" (click)="createNote()"><i
+                                    class="icon ion-md-create"></i></a>
+                        </li>
+                    </ul>
+                    <!-- Icons nav end -->
+                </div>
+                <div class="col-6 col-md-auto align-self-center">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="notesSearchQuery" [(ngModel)]="notesSearchQuery"
+                            placeholder="Search Notes...">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="icon ion-md-search"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Notes wrapper header end -->
+    <!-- Notes wrapper sidebar start -->
+    <div class="notes-wrap-sidebar">
+        <div class="notes-wrap-sidebar-inner">
+            <!-- Application logo start -->
+            <div class="app-logo">
+                <a href="javascript:void(0)"><img src="assets/img/app-logo-white.png" alt=""></a>
+                <a href="javascript:void(0)"><i class="icon ion-md-close" (click)="toggleNotesSidebar()"></i></a>
+            </div>
+            <!-- Application logo end -->
+            <!-- Notes list start -->
+            <div class="notes-list" appScrollbar [scrollbarType]="'y'"
+                *ngIf="notes | search: notesSearchQuery : ['Title', 'Desc'] as searchNotes">
+                <!-- Note item start -->
+                <div class="note-item" *ngFor="let note of searchNotes;"
+                    [ngClass]="{'active': selectedNoteId == note['Id']}" (click)="selectNote(note['Id'], note)">
+                    <h6 class="note-title text-truncate">{{note['Title']}}</h6>
+                    <div class="row">
+                        <div class="col-md-auto note-time">{{note['Time'] | date: 'hh:mm:ss a'}}</div>
+                        <div class="col-md note-desc text-truncate">{{note['Desc']}}</div>
+                    </div>
+                </div>
+                <div class="note-item" *ngIf="searchNotes.length === 0">
+                    <div class="note-desc text-truncate">No Records Found...</div>
+                </div>
+                <!-- Note item end -->
+            </div>
+            <!-- Notes list end -->
+        </div>
+    </div>
+    <!-- Notes wrapper sidebar end -->
+    <!-- Notes wrapper container start -->
+    <div class="notes-wrap-container">
+        <div class="notes-wrap-container-inner">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md py-4">
+                        <form [formGroup]="noteFG">
+                            <div class="form-group">
+                                <label>Title:</label>
+                                <input type="text" class="form-control" formControlName="Title"
+                                    (ngModelChange)="noteTitleChange()">
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea rows="10" class="form-control" formControlName="Desc"
+                                    (ngModelChange)="noteDescChange()"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Notes wrapper container end -->
+</div>
+<!-- Notes wrapper end -->
